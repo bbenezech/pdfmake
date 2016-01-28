@@ -4,7 +4,7 @@
 'use strict';
 
 var PdfPrinter = require('../printer');
-var FileSaver = require('../../libs/FileSaver.js/FileSaver');
+var FileSaver = require('../../lib/FileSaver.js');
 var saveAs = FileSaver.saveAs;
 
 var defaultClientFonts = {
