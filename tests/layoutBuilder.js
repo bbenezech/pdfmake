@@ -1556,7 +1556,6 @@ describe('LayoutBuilder', function() {
         {id: 'ul', ul: [{text: 'ul Item', id: 'ul-item'}]},
         {id: 'ol', ol: [{text: 'ol Item', id: 'ol-item'}]},
         {id: 'image', image: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD//gATQ3JlYXRlZCB3aXRoIEdJTVD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wgARCAABAAEDAREAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACP/EABQBAQAAAAAAAAAAAAAAAAAAAAX/2gAMAwEAAhADEAAAATY4f//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAQUCf//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Bf//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Bf//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEABj8Cf//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8hf//aAAwDAQACAAMAAAAQn//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Qf//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Qf//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8Qf//Z'},
-        {id: 'qr', qr: 'http://www.thoughtworks.com/join'},
         {id: 'canvas', canvas: [ { type: 'rect', x: 0, y: 0, w: 10, h: 10 } ]},
         {id: 'columns', columns: [{text: 'column item', id:'column-item'}]}
 
@@ -1591,10 +1590,7 @@ describe('LayoutBuilder', function() {
       var imageIndex = olIndex + 2;
       validateCalled(imageIndex, 'image', 'image');
 
-      var qrIndex = imageIndex + 1;
-      validateCalled(qrIndex, 'qr', 'qr');
-
-      var canvasIndex = qrIndex + 1;
+      var canvasIndex = imageIndex + 1;
       validateCalled(canvasIndex, 'canvas', 'canvas');
 
       var columnIndex = canvasIndex + 1;

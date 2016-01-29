@@ -8,7 +8,6 @@ function VirtualFileSystem() {
 }
 
 VirtualFileSystem.prototype.readFileSync = function(filename) {
-  console.log('reading', filename, '->', fixFilename(filename), this.baseSystem, this.fileSystem);
   filename = fixFilename(filename);
 
   return this.baseSystem[filename] || this.fileSystem[filename];
