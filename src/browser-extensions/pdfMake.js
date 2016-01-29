@@ -8,12 +8,30 @@ var FileSaver = require('../../lib/FileSaver.js');
 var saveAs = FileSaver.saveAs;
 
 var defaultClientFonts = {
-	Roboto: {
-		normal: 'Roboto-Regular.ttf',
-		bold: 'Roboto-Medium.ttf',
-		italics: 'Roboto-Italic.ttf',
-		bolditalics: 'Roboto-Italic.ttf'
-	}
+  // Roboto: {
+  //   normal: 'examples/fonts/Roboto-Regular.ttf',
+  //   bold: 'examples/fonts/Roboto-Medium.ttf',
+  //   italics: 'examples/fonts/Roboto-Italic.ttf',
+  //   bolditalics: 'examples/fonts/Roboto-Italic.ttf'
+  // },
+  Helvetica: {
+    normal: 'Helvetica',
+    bold: 'Helvetica-Bold',
+    italics: 'Helvetica-Oblique',
+    bolditalics: 'Helvetica-BoldOblique'
+  },
+  Times: {
+    normal: 'Times-Roman',
+    bold: 'Times-Bold',
+    italics: 'Times-Italic',
+    bolditalics: 'Times-BoldItalic'
+  },
+  Courier: {
+    normal: 'Courier',
+    bold: 'Courier-Bold',
+    italics: 'Courier-Oblique',
+    bolditalics: 'Courier-BoldOblique'
+  },
 };
 
 function Document(docDefinition, fonts, vfs) {

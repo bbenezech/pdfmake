@@ -74,7 +74,7 @@ TextTools.prototype.sizeOfString = function(text, styleContextStack) {
 	text = text.replace('\t', '    ');
 
 	//TODO: refactor - extract from measure
-	var fontName = getStyleProperty({}, styleContextStack, 'font', 'Roboto');
+	var fontName = getStyleProperty({}, styleContextStack, 'font', 'Helvetica');
 	var fontSize = getStyleProperty({}, styleContextStack, 'fontSize', 12);
 	var bold = getStyleProperty({}, styleContextStack, 'bold', false);
 	var italics = getStyleProperty({}, styleContextStack, 'italics', false);
@@ -211,7 +211,7 @@ function measure(fontProvider, textArray, styleContextStack) {
 	var normalized = normalizeTextArray(textArray);
 
 	normalized.forEach(function(item) {
-		var fontName = getStyleProperty(item, styleContextStack, 'font', 'Roboto');
+		var fontName = getStyleProperty(item, styleContextStack, 'font', 'Helvetica');
 		var fontSize = getStyleProperty(item, styleContextStack, 'fontSize', 12);
 		var bold = getStyleProperty(item, styleContextStack, 'bold', false);
 		var italics = getStyleProperty(item, styleContextStack, 'italics', false);

@@ -18,12 +18,30 @@ app.use(bodyParser.urlencoded({ extended: false }));
 function createPdfBinary(pdfDoc, callback) {
 
   var fontDescriptors = {
-    Roboto: {
-      normal: 'examples/fonts/Roboto-Regular.ttf',
-      bold: 'examples/fonts/Roboto-Medium.ttf',
-      italics: 'examples/fonts/Roboto-Italic.ttf',
-      bolditalics: 'examples/fonts/Roboto-Italic.ttf'
-    }
+    // Roboto: {
+    //   normal: 'examples/fonts/Roboto-Regular.ttf',
+    //   bold: 'examples/fonts/Roboto-Medium.ttf',
+    //   italics: 'examples/fonts/Roboto-Italic.ttf',
+    //   bolditalics: 'examples/fonts/Roboto-Italic.ttf'
+    // },
+    Helvetica: {
+      normal: 'Helvetica',
+      bold: 'Helvetica-Bold',
+      italics: 'Helvetica-Oblique',
+      bolditalics: 'Helvetica-BoldOblique'
+    },
+    Times: {
+      normal: 'Times-Roman',
+      bold: 'Times-Bold',
+      italics: 'Times-Italic',
+      bolditalics: 'Times-BoldItalic'
+    },
+    Courier: {
+      normal: 'Courier',
+      bold: 'Courier-Bold',
+      italics: 'Courier-Oblique',
+      bolditalics: 'Courier-BoldOblique'
+    },
   };
 
   var printer = new pdfMakePrinter(fontDescriptors);

@@ -28,8 +28,7 @@
     "webpack": "^1.8.9"
   },
   "scripts": {
-    "test": "gulp",
-    "preinstall" : "git submodule update --init"
+    "test": "gulp"
   },
   "repository": {
     "type": "git",
