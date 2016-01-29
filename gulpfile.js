@@ -11,7 +11,7 @@ var mocha = require('gulp-spawn-mocha');
 var jshint = require('gulp-jshint');
 
 var uglifyOptions = {
-	preserveComments: 'some',
+	// preserveComments: 'some',
 	// source_map: 'pdfmake.min.js.map',
 	compress: {
 		drop_console: true
@@ -27,10 +27,7 @@ gulp.task('build', function() {
 	return gulp.src('src/browser-extensions/pdfMake.js')
 		.pipe(webpack(require('./webpack.config.js'), null, reportWebPackErrors))
 		.pipe(gulp.dest('build'))
-		.pipe(sourcemaps.init())
 		.pipe(uglify(uglifyOptions))
-		.pipe(rename({ extname: '.min.js' }))
-		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest('build'));
 });
 
