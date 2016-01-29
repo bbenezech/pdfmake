@@ -18,20 +18,8 @@ var defaultClientFonts = {
     normal: 'Helvetica',
     bold: 'Helvetica-Bold',
     italics: 'Helvetica-Oblique',
-    bolditalics: 'Helvetica-BoldOblique'
-  },
-  Times: {
-    normal: 'Times-Roman',
-    bold: 'Times-Bold',
-    italics: 'Times-Italic',
-    bolditalics: 'Times-BoldItalic'
-  },
-  Courier: {
-    normal: 'Courier',
-    bold: 'Courier-Bold',
-    italics: 'Courier-Oblique',
-    bolditalics: 'Courier-BoldOblique'
-  },
+    bolditalics: 'Helvetica-Bold'
+  }
 };
 
 function Document(docDefinition, fonts, vfs) {

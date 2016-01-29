@@ -71,20 +71,8 @@
 	    normal: 'Helvetica',
 	    bold: 'Helvetica-Bold',
 	    italics: 'Helvetica-Oblique',
-	    bolditalics: 'Helvetica-BoldOblique'
-	  },
-	  Times: {
-	    normal: 'Times-Roman',
-	    bold: 'Times-Bold',
-	    italics: 'Times-Italic',
-	    bolditalics: 'Times-BoldItalic'
-	  },
-	  Courier: {
-	    normal: 'Courier',
-	    bold: 'Courier-Bold',
-	    italics: 'Courier-Oblique',
-	    bolditalics: 'Courier-BoldOblique'
-	  },
+	    bolditalics: 'Helvetica-Bold'
+	  }
 	};
 
 	function Document(docDefinition, fonts, vfs) {
@@ -21620,9 +21608,9 @@
 
 /***/ },
 /* 43 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer, __dirname) {/* jslint node: true */
+	/* jslint node: true */
 	'use strict';
 
 	// var b64 = require('./base64.js').base64DecToArr;
@@ -21632,14 +21620,7 @@
 	}
 
 	VirtualFileSystem.prototype.readFileSync = function(filename) {
-		filename = fixFilename(filename);
-
-		var base64content = this.baseSystem[filename];
-		if (base64content) {
-			return new Buffer(base64content, 'base64');
-		}
-
-		return this.fileSystem[filename];
+		return this.baseSystem[filename] || this.fileSystem[filename];
 	};
 
 	VirtualFileSystem.prototype.writeFileSync = function(filename, content) {
@@ -21650,22 +21631,8 @@
 		this.baseSystem = data;
 	};
 
-
-	function fixFilename(filename) {
-		if (filename.indexOf(__dirname) === 0) {
-			filename = filename.substring(__dirname.length);
-		}
-
-		if (filename.indexOf('/') === 0) {
-			filename = filename.substring(1);
-		}
-
-		return filename;
-	}
-
 	module.exports = new VirtualFileSystem();
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer, "/"))
 
 /***/ },
 /* 44 */
