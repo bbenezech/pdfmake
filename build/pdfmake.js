@@ -21610,29 +21610,46 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	/* jslint node: true */
+	/* WEBPACK VAR INJECTION */(function(__dirname) {/* jslint node: true */
 	'use strict';
 
 	// var b64 = require('./base64.js').base64DecToArr;
 	function VirtualFileSystem() {
-		this.fileSystem = {};
-		this.baseSystem = {};
+	  this.fileSystem = {};
+	  this.baseSystem = {};
 	}
 
 	VirtualFileSystem.prototype.readFileSync = function(filename) {
-		return this.baseSystem[filename] || this.fileSystem[filename];
+	  console.log('reading', filename, '->', fixFilename(filename), this.baseSystem, this.fileSystem);
+	  filename = fixFilename(filename);
+
+	  return this.baseSystem[filename] || this.fileSystem[filename];
 	};
 
 	VirtualFileSystem.prototype.writeFileSync = function(filename, content) {
-		this.fileSystem[fixFilename(filename)] = content;
+	  this.fileSystem[fixFilename(filename)] = content;
 	};
 
 	VirtualFileSystem.prototype.bindFS = function(data) {
-		this.baseSystem = data;
+	  this.baseSystem = data;
 	};
+
+
+	function fixFilename(filename) {
+	  if (filename.indexOf(__dirname) === 0) {
+	    filename = filename.substring(__dirname.length);
+	  }
+
+	  if (filename.indexOf('/') === 0) {
+	    filename = filename.substring(1);
+	  }
+
+	  return filename;
+	}
 
 	module.exports = new VirtualFileSystem();
 
+	/* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ },
 /* 44 */
