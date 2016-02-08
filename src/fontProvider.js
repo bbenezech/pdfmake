@@ -1,7 +1,7 @@
 /* jslint node: true */
 'use strict';
 
-var _ = require('lodash');
+var _each = require('lodash/each');
 var FontWrapper = require('./fontWrapper');
 
 function typeName(bold, italics){
@@ -49,9 +49,9 @@ FontProvider.prototype.provideFont = function(familyName, bold, italics) {
 FontProvider.prototype.setFontRefsToPdfDoc = function(){
   var self = this;
 
-  _.each(self.fontWrappers, function(fontFamily) {
-    _.each(fontFamily, function(fontWrapper){
-      _.each(fontWrapper.pdfFonts, function(font){
+  _each(self.fontWrappers, function(fontFamily) {
+    _each(fontFamily, function(fontWrapper){
+      _each(fontWrapper.pdfFonts, function(font){
         if (!self.pdfDoc.page.fonts[font.id]) {
           self.pdfDoc.page.fonts[font.id] = font.ref();
         }

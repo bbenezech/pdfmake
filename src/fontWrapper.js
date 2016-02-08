@@ -1,7 +1,10 @@
 /* jslint node: true */
 'use strict';
 
-var _ = require('lodash');
+var _each = require('lodash/each');
+var _includes = require('lodash/includes');
+var _map = require('lodash/map');
+var _uniq = require('lodash/uniq');
 
 function FontWrapper(pdfkitDoc, path, fontName){
 	this.MAX_CHAR_TYPES = 92;
@@ -69,17 +72,16 @@ var toCharCode = function(char){
 FontWrapper.prototype.encode = function(text){
   var self = this;
 
-  var charTypesInInline = _.chain(text.split('')).map(toCharCode).uniq().value();
+  var charTypesInInline = _uniq(text.split('').map(toCharCode));
 	if (charTypesInInline.length > self.MAX_CHAR_TYPES) {
 		throw new Error('Inline has more than '+ self.MAX_CHAR_TYPES + ': ' + text + ' different character types and therefore cannot be properly embedded into pdf.');
 	}
 
-
   var characterFitInFontWithIndex = function (charCatalogue) {
-    return _.uniq(charCatalogue.concat(charTypesInInline)).length <= self.MAX_CHAR_TYPES;
+    return _uniq(charCatalogue.concat(charTypesInInline)).length <= self.MAX_CHAR_TYPES;
   };
 
-  var index = _.findIndex(self.charCatalogue, characterFitInFontWithIndex);
+  var index = self.charCatalogue.findIndex(characterFitInFontWithIndex);
 
   if(index < 0){
     index = self.charCatalogue.length;
@@ -89,13 +91,13 @@ FontWrapper.prototype.encode = function(text){
 	var font = self.getFont(index);
 	font.use(text);
 
-  _.each(charTypesInInline, function(charCode){
-    if(!_.includes(self.charCatalogue[index], charCode)){
+  _each(charTypesInInline, function(charCode){
+    if(!_includes(self.charCatalogue[index], charCode)){
       self.charCatalogue[index].push(charCode);
     }
   });
 
-  var encodedText = _.map(font.encode(text), function (char) {
+  var encodedText = _map(font.encode(text), function (char) {
     return char.charCodeAt(0).toString(16);
   }).join('');
 

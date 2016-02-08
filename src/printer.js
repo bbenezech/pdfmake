@@ -2,7 +2,6 @@
 /* global window */
 'use strict';
 
-var _ = require('lodash');
 var FontProvider = require('./fontProvider');
 var LayoutBuilder = require('./layoutBuilder');
 var PdfKit = require('pdfkit');

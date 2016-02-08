@@ -1,7 +1,16 @@
 /* jslint node: true */
 'use strict';
 
-var _ = require('lodash');
+var _each = require('lodash/each');
+var _uniq = require('lodash/uniq');
+var _pick = require('lodash/pick');
+var _reject = require('lodash/reject');
+var _isArray = require('lodash/isArray');
+var _map = require('lodash/map');
+var _includes = require('lodash/includes');
+var _drop = require('lodash/drop');
+var _take = require('lodash/take');
+
 var TraversalTracker = require('./traversalTracker');
 var DocMeasure = require('./docMeasure');
 var DocumentContext = require('./documentContext');
@@ -17,7 +26,7 @@ var TextTools = require('./textTools');
 var StyleContextStack = require('./styleContextStack');
 
 function addAll(target, otherArray){
-  _.each(otherArray, function(item){
+  _each(otherArray, function(item){
     target.push(item);
   });
 }
@@ -59,45 +68,45 @@ LayoutBuilder.prototype.layoutDocument = function (docStructure, fontProvider, s
 			return false;
 		}
 
-    linearNodeList = _.reject(linearNodeList, function(node){
-      return _.isEmpty(node.positions);
+    linearNodeList = _reject(linearNodeList, function(node){
+      return !node.positions.length;
     });
 
-    _.each(linearNodeList, function(node) {
-      var nodeInfo = _.pick(node, [
+    _each(linearNodeList, function(node) {
+      var nodeInfo = _pick(node, [
         'id', 'text', 'ul', 'ol', 'table', 'image', 'qr', 'canvas', 'columns',
         'headlineLevel', 'style', 'pageBreak', 'pageOrientation',
         'width', 'height'
       ]);
-      nodeInfo.startPosition = _.first(node.positions);
-      nodeInfo.pageNumbers = _.chain(node.positions).map('pageNumber').uniq().value();
+      nodeInfo.startPosition = node.positions[0];
+      nodeInfo.pageNumbers = _uniq(_map(node.positions, 'pageNumber'));
       nodeInfo.pages = pages.length;
-      nodeInfo.stack = _.isArray(node.stack);
+      nodeInfo.stack = _isArray(node.stack);
 
       node.nodeInfo = nodeInfo;
     });
 
-    return _.some(linearNodeList, function (node, index, followingNodeList) {
+    return linearNodeList.some(function (node, index, followingNodeList) {
       if (node.pageBreak !== 'before' && !node.pageBreakCalculated) {
         node.pageBreakCalculated = true;
-        var pageNumber = _.first(node.nodeInfo.pageNumbers);
+        var pageNumber = node.nodeInfo.pageNumbers[0];
 
-				var followingNodesOnPage = _.chain(followingNodeList).drop(index + 1).filter(function (node0) {
-          return _.includes(node0.nodeInfo.pageNumbers, pageNumber);
-        }).value();
+				var followingNodesOnPage = _drop(followingNodeList, index + 1).filter(function (node0) {
+          return _includes(node0.nodeInfo.pageNumbers, pageNumber);
+        });
 
-        var nodesOnNextPage = _.chain(followingNodeList).drop(index + 1).filter(function (node0) {
-          return _.includes(node0.nodeInfo.pageNumbers, pageNumber + 1);
-        }).value();
+        var nodesOnNextPage = _drop(followingNodeList, index + 1).filter(function (node0) {
+          return _includes(node0.nodeInfo.pageNumbers, pageNumber + 1);
+        });
 
-        var previousNodesOnPage = _.chain(followingNodeList).take(index).filter(function (node0) {
-          return _.includes(node0.nodeInfo.pageNumbers, pageNumber);
-        }).value();
+        var previousNodesOnPage = _take(followingNodeList, index).filter(function (node0) {
+          return _includes(node0.nodeInfo.pageNumbers, pageNumber);
+        });
 
         if (pageBreakBeforeFct(node.nodeInfo,
-          _.map(followingNodesOnPage, 'nodeInfo'),
-          _.map(nodesOnNextPage, 'nodeInfo'),
-          _.map(previousNodesOnPage, 'nodeInfo'))) {
+          _map(followingNodesOnPage, 'nodeInfo'),
+          _map(nodesOnNextPage, 'nodeInfo'),
+          _map(previousNodesOnPage, 'nodeInfo'))) {
           node.pageBreak = 'before';
           return true;
         }
@@ -109,7 +118,7 @@ LayoutBuilder.prototype.layoutDocument = function (docStructure, fontProvider, s
 
 
   function resetXYs(result) {
-    _.each(result.linearNodeList, function (node) {
+    _each(result.linearNodeList, function (node) {
       node.resetXY();
     });
   }
@@ -268,7 +277,7 @@ function decorateNode(node){
   var x = node.x, y = node.y;
   node.positions = [];
 
-  _.each(node.canvas, function(vector){
+  _each(node.canvas, function(vector){
     var x = vector.x, y = vector.y, x1 = vector.x1, y1 = vector.y1, x2 = vector.x2, y2 = vector.y2;
     vector.resetXY = function(){
       vector.x = x;
@@ -283,7 +292,7 @@ function decorateNode(node){
   node.resetXY = function(){
     node.x = x;
     node.y = y;
-    _.each(node.canvas, function(vector){
+    _each(node.canvas, function(vector){
       vector.resetXY();
     });
   };
