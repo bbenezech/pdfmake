@@ -5,6 +5,7 @@ var _each = require('lodash/each');
 var _includes = require('lodash/includes');
 var _map = require('lodash/map');
 var _uniq = require('lodash/uniq');
+var _findIndex = require('lodash/findIndex');
 
 function FontWrapper(pdfkitDoc, path, fontName){
 	this.MAX_CHAR_TYPES = 92;
@@ -81,7 +82,7 @@ FontWrapper.prototype.encode = function(text){
     return _uniq(charCatalogue.concat(charTypesInInline)).length <= self.MAX_CHAR_TYPES;
   };
 
-  var index = self.charCatalogue.findIndex(characterFitInFontWithIndex);
+  var index = _findIndex(self.charCatalogue, characterFitInFontWithIndex);
 
   if(index < 0){
     index = self.charCatalogue.length;
