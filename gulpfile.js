@@ -10,11 +10,24 @@ var replace = require('gulp-replace');
 var mocha = require('gulp-spawn-mocha');
 var jshint = require('gulp-jshint');
 
+var uglifyOptions = {
+  preserveComments: 'some',
+  // source_map: 'pdfmake.min.js.map',
+  compress: {
+    drop_console: true
+  },
+  mangle: {
+    except: ['HeadTable', 'NameTable', 'CmapTable', 'HheaTable', 'MaxpTable', 'HmtxTable', 'PostTable', 'OS2Table', 'LocaTable', 'GlyfTable']
+  }
+};
+
 gulp.task('default', [/*'lint',*/ 'test', 'build']);
 gulp.task('build', function() {
 	return gulp.src('src/browser-extensions/pdfMake.js')
 		.pipe(webpack(require('./webpack.config.js'), null, reportWebPackErrors))
 		.pipe(gulp.dest('build'))
+    .pipe(uglify(uglifyOptions))
+    .pipe(rename({ extname: '.min.js' }))
 		.pipe(gulp.dest('build'));
 });
 

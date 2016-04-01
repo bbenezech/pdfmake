@@ -2,14 +2,7 @@
 'use strict';
 
 var _each = require('lodash/each');
-var _uniq = require('lodash/uniq');
-var _pick = require('lodash/pick');
-var _reject = require('lodash/reject');
-var _isArray = require('lodash/isArray');
 var _map = require('lodash/map');
-var _includes = require('lodash/includes');
-var _drop = require('lodash/drop');
-var _take = require('lodash/take');
 
 var TraversalTracker = require('./traversalTracker');
 var DocMeasure = require('./docMeasure');
@@ -68,20 +61,34 @@ LayoutBuilder.prototype.layoutDocument = function (docStructure, fontProvider, s
 			return false;
 		}
 
-    linearNodeList = _reject(linearNodeList, function(node){
-      return !node.positions.length;
+    linearNodeList = linearNodeList.filter(function(node){
+      return node.positions.length;
     });
 
     _each(linearNodeList, function(node) {
-      var nodeInfo = _pick(node, [
-        'id', 'text', 'ul', 'ol', 'table', 'image', 'qr', 'canvas', 'columns',
-        'headlineLevel', 'style', 'pageBreak', 'pageOrientation',
-        'width', 'height'
-      ]);
+      var nodeInfo = {
+        id: node.id,
+        text: node.text,
+        ul: node.ul,
+        ol: node.ol,
+        table: node.table,
+        image: node.image,
+        qr: node.qr,
+        canvas: node.canvas,
+        columns: node.columns,
+        headlineLevel: node.headlineLevel,
+        style: node.style,
+        pageBreak: node.pageBreak,
+        pageOrientation: node.pageOrientation,
+        width: node.width,
+        height: node.height,
+      };
       nodeInfo.startPosition = node.positions[0];
-      nodeInfo.pageNumbers = _uniq(_map(node.positions, 'pageNumber'));
+      nodeInfo.pageNumbers = _map(node.positions, 'pageNumber').filter(function(elem, pos,arr) {
+        return arr.indexOf(elem) == pos;
+      });
       nodeInfo.pages = pages.length;
-      nodeInfo.stack = _isArray(node.stack);
+      nodeInfo.stack = Array.isArray(node.stack);
 
       node.nodeInfo = nodeInfo;
     });
@@ -91,16 +98,16 @@ LayoutBuilder.prototype.layoutDocument = function (docStructure, fontProvider, s
         node.pageBreakCalculated = true;
         var pageNumber = node.nodeInfo.pageNumbers[0];
 
-				var followingNodesOnPage = _drop(followingNodeList, index + 1).filter(function (node0) {
-          return _includes(node0.nodeInfo.pageNumbers, pageNumber);
+				var followingNodesOnPage = followingNodeList.slice(index + 1).filter(function (node0) {
+          return node0.nodeInfo.pageNumbers.indexOf(pageNumber) !== -1;
         });
 
-        var nodesOnNextPage = _drop(followingNodeList, index + 1).filter(function (node0) {
-          return _includes(node0.nodeInfo.pageNumbers, pageNumber + 1);
+        var nodesOnNextPage = followingNodeList.slice(index + 1).filter(function (node0) {
+          return node0.nodeInfo.pageNumbers.indexOf(pageNumber + 1) !== -1;
         });
 
-        var previousNodesOnPage = _take(followingNodeList, index).filter(function (node0) {
-          return _includes(node0.nodeInfo.pageNumbers, pageNumber);
+        var previousNodesOnPage = followingNodeList.slice(0, index).filter(function (node0) {
+          return node0.nodeInfo.pageNumbers.indexOf(pageNumber) !== -1;
         });
 
         if (pageBreakBeforeFct(node.nodeInfo,
