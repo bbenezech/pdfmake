@@ -7222,7 +7222,6 @@
 			var decorationStyle = getStyleProperty(item, styleContextStack, 'decorationStyle', null);
 			var background = getStyleProperty(item, styleContextStack, 'background', null);
 			var lineHeight = getStyleProperty(item, styleContextStack, 'lineHeight', 1);
-			var link = getStyleProperty(item, styleContextStack, 'link', null);
 
 			var font = fontProvider.provideFont(fontName, bold, italics);
 
@@ -7254,7 +7253,6 @@
 			item.decorationColor = decorationColor;
 			item.decorationStyle = decorationStyle;
 			item.background = background;
-			item.link = link;
 		});
 
 		return normalized;
