@@ -186,6 +186,12 @@ DocMeasure.prototype.measureLeaf = function(node) {
 
 	var data = this.textTools.buildInlines(node.text, styleStack);
 
+	if(node.link) {
+		for(var di = 0, dl = data.items.length; di < dl; di++) {
+			data.items[di].link = node.link ;
+		}
+	}
+
 	node._inlines = data.items;
 	node._minWidth = data.minWidth;
 	node._maxWidth = data.maxWidth;
